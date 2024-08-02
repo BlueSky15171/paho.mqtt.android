@@ -1,26 +1,27 @@
 package org.eclipse.paho.android.sample.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.eclipse.paho.android.sample.R;
 import org.eclipse.paho.android.sample.internal.Connections;
 
 import java.util.Map;
 
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTabHost;
+
 
 public class ConnectionFragment extends Fragment {
     private Connection connection;
     private FragmentTabHost mTabHost;
-    private Switch connectSwitch;
+    private SwitchCompat connectSwitch;
 
     public ConnectionFragment() {
         setHasOptionsMenu(true);
@@ -66,16 +67,13 @@ public class ConnectionFragment extends Fragment {
 
         connectSwitch = menu.findItem(R.id.connect_switch).getActionView().findViewById(R.id.switchForActionBar);
 
-        connectSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    ((MainActivity) getActivity()).connect(connection);
-                    changeConnectedState(true);
-                } else {
-                    ((MainActivity) getActivity()).disconnect(connection);
-                    changeConnectedState(false);
-                }
+        connectSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                ((MainActivity) getActivity()).connect(connection);
+                changeConnectedState(true);
+            } else {
+                ((MainActivity) getActivity()).disconnect(connection);
+                changeConnectedState(false);
             }
         });
         changeConnectedState(connection.isConnected());

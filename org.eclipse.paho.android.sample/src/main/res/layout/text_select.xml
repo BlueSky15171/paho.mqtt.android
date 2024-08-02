@@ -5,12 +5,12 @@
         android:id="@+id/container"
         style="@style/textfieldContainer">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/mainLabel"
             style="@style/textFieldLabel"
             android:text="@string/placeholder_main_label"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subLabel"
             style="@style/textfieldSubLabel"
             android:layout_below="@+id/mainLabel"

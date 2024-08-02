@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/message_text"
             style="@style/spinnerTextFieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_connection_lwt_topic_label"/>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/topic"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -44,14 +44,14 @@
         android:layout_below="@+id/divider8"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lwt_message_label"
             style="@style/spinnerTextFieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_connection_lwt_message_label"/>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/message"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_below="@+id/divider9"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lwt_qos_label"
             style="@style/spinnerTextFieldLabel"
             android:layout_width="wrap_content"

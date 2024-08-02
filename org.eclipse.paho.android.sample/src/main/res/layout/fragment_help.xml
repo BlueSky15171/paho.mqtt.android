@@ -14,7 +14,7 @@
         android:padding="10dp"
         android:src="@drawable/paho_logo_full"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/label"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/help_email_button"/>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/enable_logging_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -225,13 +225,13 @@ class DatabaseMessageStore implements MessageStore {
 
             @Override
             public StoredMessage next() {
-                String messageId = c.getString(c.getColumnIndex(MqttServiceConstants.MESSAGE_ID));
-                String clientHandle = c.getString(c.getColumnIndex(MqttServiceConstants.CLIENT_HANDLE));
-                String topic = c.getString(c.getColumnIndex(MqttServiceConstants.DESTINATION_NAME));
-                byte[] payload = c.getBlob(c.getColumnIndex(MqttServiceConstants.PAYLOAD));
-                int qos = c.getInt(c.getColumnIndex(MqttServiceConstants.QOS));
-                boolean retained = Boolean.parseBoolean(c.getString(c.getColumnIndex(MqttServiceConstants.RETAINED)));
-                boolean dup = Boolean.parseBoolean(c.getString(c.getColumnIndex(MqttServiceConstants.DUPLICATE)));
+                String messageId = c.getString(c.getColumnIndexOrThrow(MqttServiceConstants.MESSAGE_ID));
+                String clientHandle = c.getString(c.getColumnIndexOrThrow(MqttServiceConstants.CLIENT_HANDLE));
+                String topic = c.getString(c.getColumnIndexOrThrow(MqttServiceConstants.DESTINATION_NAME));
+                byte[] payload = c.getBlob(c.getColumnIndexOrThrow(MqttServiceConstants.PAYLOAD));
+                int qos = c.getInt(c.getColumnIndexOrThrow(MqttServiceConstants.QOS));
+                boolean retained = Boolean.parseBoolean(c.getString(c.getColumnIndexOrThrow(MqttServiceConstants.RETAINED)));
+                boolean dup = Boolean.parseBoolean(c.getString(c.getColumnIndexOrThrow(MqttServiceConstants.DUPLICATE)));
 
                 // build the result
                 MqttMessageHack message = new MqttMessageHack(payload);

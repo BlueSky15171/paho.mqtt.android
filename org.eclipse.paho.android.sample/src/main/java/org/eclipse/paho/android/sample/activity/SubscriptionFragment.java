@@ -2,10 +2,7 @@ package org.eclipse.paho.android.sample.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +23,9 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 
 public class SubscriptionFragment extends Fragment {
@@ -56,25 +56,17 @@ public class SubscriptionFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_subscriptions, container, false);
         Button subscribeButton = rootView.findViewById(R.id.subscribe_button);
 
-        subscribeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInputDialog();
-            }
-        });
+        subscribeButton.setOnClickListener(v -> showInputDialog());
 
         ListView subscriptionListView = rootView.findViewById(R.id.subscription_list_view);
         SubscriptionListItemAdapter adapter = new SubscriptionListItemAdapter(this.getActivity(), subscriptions);
 
-        adapter.addOnUnsubscribeListner(new SubscriptionListItemAdapter.OnUnsubscribeListner() {
-            @Override
-            public void onUnsubscribe(Subscription subscription) {
-                try {
-                    connection.unsubscribe(subscription);
-                    System.out.println("Unsubscribed from: " + subscription.toString());
-                } catch (MqttException ex) {
-                    System.out.println("Failed to unsubscribe from " + subscription.toString() + ". " + ex.getMessage());
-                }
+        adapter.addOnUnsubscribeListner(subscription -> {
+            try {
+                connection.unsubscribe(subscription);
+                System.out.println("Unsubscribed from: " + subscription.toString());
+            } catch (MqttException ex) {
+                System.out.println("Failed to unsubscribe from " + subscription.toString() + ". " + ex.getMessage());
             }
         });
         subscriptionListView.setAdapter(adapter);
@@ -109,25 +101,18 @@ public class SubscriptionFragment extends Fragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptView);
-        alertDialogBuilder.setCancelable(true).setPositiveButton(R.string.subscribe_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                String topic = topicText.getText().toString();
+        alertDialogBuilder.setCancelable(true).setPositiveButton(R.string.subscribe_ok, (dialog, id) -> {
+            String topic = topicText.getText().toString();
 
-                Subscription subscription = new Subscription(topic, temp_qos_value, connection.handle(), notifySwitch.isChecked());
-                subscriptions.add(subscription);
-                try {
-                    connection.addNewSubscription(subscription);
-                } catch (MqttException ex) {
-                    System.out.println("MqttException whilst subscribing: " + ex.getMessage());
-                }
-                adapter.notifyDataSetChanged();
+            Subscription subscription = new Subscription(topic, temp_qos_value, connection.handle(), notifySwitch.isChecked());
+            subscriptions.add(subscription);
+            try {
+                connection.addNewSubscription(subscription);
+            } catch (MqttException ex) {
+                System.out.println("MqttException whilst subscribing: " + ex.getMessage());
             }
-
-        }).setNegativeButton(R.string.subscribe_cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
+            adapter.notifyDataSetChanged();
+        }).setNegativeButton(R.string.subscribe_cancel, (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

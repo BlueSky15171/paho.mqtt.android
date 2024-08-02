@@ -7,21 +7,21 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/topic_label"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/subscription_topic_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:padding="10dp"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/qos_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

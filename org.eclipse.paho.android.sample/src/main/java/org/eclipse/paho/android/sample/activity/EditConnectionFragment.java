@@ -2,7 +2,6 @@ package org.eclipse.paho.android.sample.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import org.eclipse.paho.android.sample.R;
 import org.eclipse.paho.android.sample.internal.Connections;
@@ -24,6 +22,9 @@ import org.eclipse.paho.android.sample.model.ConnectionModel;
 
 import java.util.Map;
 import java.util.Random;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
 
 public class EditConnectionFragment extends Fragment {
@@ -34,7 +35,7 @@ public class EditConnectionFragment extends Fragment {
     private EditText clientId;
     private EditText serverHostname;
     private EditText serverPort;
-    private Switch cleanSession;
+    private SwitchCompat cleanSession;
     private EditText username;
     private EditText password;
     private EditText tlsServerKey;
@@ -44,7 +45,7 @@ public class EditConnectionFragment extends Fragment {
     private EditText lwtTopic;
     private EditText lwtMessage;
     private Spinner lwtQos;
-    private Switch lwtRetain;
+    private SwitchCompat lwtRetain;
     private ConnectionModel formModel;
     private boolean newConnection = true;
 

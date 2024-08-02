@@ -1,26 +1,24 @@
 package org.eclipse.paho.android.sample.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.eclipse.paho.android.sample.R;
 import org.eclipse.paho.android.sample.internal.Connections;
 
 import java.util.Map;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
 
 public class HelpFragment extends Fragment {
@@ -47,43 +45,34 @@ public class HelpFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_help, container, false);
 
         Button websiteButton = rootView.findViewById(R.id.websiteButton);
-        websiteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Opening Web Browser to Paho Website");
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PAHO_WEBSITE));
-                startActivity(browserIntent);
-            }
+        websiteButton.setOnClickListener(v -> {
+            Log.i(TAG, "Opening Web Browser to Paho Website");
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PAHO_WEBSITE));
+            startActivity(browserIntent);
         });
 
         Button feedbackButton = rootView.findViewById(R.id.feedbackButton);
-        feedbackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Preparing Feedback Email.");
-                Uri data = Uri.parse("mailto:" + FEEDBACK_EMAIL + "?subject=" + FEEDBACK_SUBJECT + "&body=" + getDebugInfoForEmail());
-                Intent feedbackIntent = new Intent(Intent.ACTION_VIEW, data);
-                startActivity(feedbackIntent);
-            }
+        feedbackButton.setOnClickListener(v -> {
+            Log.i(TAG, "Preparing Feedback Email.");
+            Uri data = Uri.parse("mailto:" + FEEDBACK_EMAIL + "?subject=" + FEEDBACK_SUBJECT + "&body=" + getDebugInfoForEmail());
+            Intent feedbackIntent = new Intent(Intent.ACTION_VIEW, data);
+            startActivity(feedbackIntent);
         });
 
-        Switch enableLoggingSwitch = rootView.findViewById(R.id.enable_logging_switch);
-        enableLoggingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Map<String, Connection> connections = Connections.getInstance(rootView.getContext())
-                        .getConnections();
-                if (!connections.isEmpty()) {
-                    Map.Entry<String, Connection> entry = connections.entrySet().iterator().next();
-                    Connection connection = entry.getValue();
-                    connection.getClient().setTraceEnabled(isChecked);
-                    if (isChecked) {
-                        connection.getClient().setTraceCallback(new MqttTraceCallback());
-                    }
-                    Log.i(TAG, "Trace was set to: " + isChecked);
-                } else {
-                    Log.i(TAG, "No Connection available to enable / disable trace on.");
+        SwitchCompat enableLoggingSwitch = rootView.findViewById(R.id.enable_logging_switch);
+        enableLoggingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Map<String, Connection> connections = Connections.getInstance(rootView.getContext())
+                    .getConnections();
+            if (!connections.isEmpty()) {
+                Map.Entry<String, Connection> entry = connections.entrySet().iterator().next();
+                Connection connection = entry.getValue();
+                connection.getClient().setTraceEnabled(isChecked);
+                if (isChecked) {
+                    connection.getClient().setTraceCallback(new MqttTraceCallback());
                 }
+                Log.i(TAG, "Trace was set to: " + isChecked);
+            } else {
+                Log.i(TAG, "No Connection available to enable / disable trace on.");
             }
         });
 

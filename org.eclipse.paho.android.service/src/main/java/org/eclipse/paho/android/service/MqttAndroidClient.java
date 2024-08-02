@@ -24,7 +24,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.SparseArray;
 
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -56,6 +55,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * Enables an android application to communicate with an MQTT server using non-blocking methods.
@@ -312,12 +313,12 @@ public class MqttAndroidClient extends BroadcastReceiver implements IMqttAsyncCl
         connectOptions = options;
         connectToken = token;
 
-		/*
+        /*
          * The actual connection depends on the service, which we start and bind
-		 * to here, but which we can't actually use until the serviceConnection
-		 * onServiceConnected() method has run (asynchronously), so the
-		 * connection itself takes place in the onServiceConnected() method
-		 */
+         * to here, but which we can't actually use until the serviceConnection
+         * onServiceConnected() method has run (asynchronously), so the
+         * connection itself takes place in the onServiceConnected() method
+         */
         if (mqttService == null) { // First time - must bind to the service
             Intent serviceStartIntent = new Intent();
             serviceStartIntent.setClassName(myContext, SERVICE_NAME);
@@ -1361,6 +1362,7 @@ public class MqttAndroidClient extends BroadcastReceiver implements IMqttAsyncCl
      * @param data
      * @return the token
      */
+
     private synchronized IMqttToken removeMqttToken(Bundle data) {
 
         String activityToken = data.getString(MqttServiceConstants.CALLBACK_ACTIVITY_TOKEN);
@@ -1530,5 +1532,20 @@ public class MqttAndroidClient extends BroadcastReceiver implements IMqttAsyncCl
         public void onServiceDisconnected(ComponentName name) {
             mqttService = null;
         }
+    }
+
+    @Override
+    public boolean removeMessage(IMqttDeliveryToken token) throws MqttException {
+        return false;
+    }
+
+    @Override
+    public void reconnect() throws MqttException {
+
+    }
+
+    @Override
+    public int getInFlightMessageCount() {
+        return 0;
     }
 }

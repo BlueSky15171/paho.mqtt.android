@@ -1,27 +1,27 @@
 buildscript {
     repositories {
-        jcenter()
+        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath "com.android.tools.build:gradle:8.5.0"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
     }
 }
 
 ext {
-    compileSdkVersion = 28
-    supportLibVersion = '28.0.0'
+    compileSdk = 34
 
-    group = 'org.eclipse.paho'
+    group = "org.eclipse.paho"
 
-    sampleArchivesBaseName = 'org.eclipse.paho.android.sample'
-    sampleVersion = '1.2.0'
+    sampleArchivesBaseName = "org.eclipse.paho.android.sample"
+    sampleVersion = "1.2.0"
 
-    serviceArchivesBaseName = 'org.eclipse.paho.android.service'
-    serviceVersion = '1.2.0'
+    serviceArchivesBaseName = "org.eclipse.paho.android.service"
+    serviceVersion = "1.2.0"
 
-    clientVersion = '1.2.0'
+    clientVersion = "1.2.5"
 
     mavenUrl = "https://repo.eclipse.org/content/repositories/paho-snapshots/"
 }
@@ -29,7 +29,7 @@ ext {
 allprojects {
 
     repositories {
-        jcenter()
+        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         google()
         maven { url rootProject.ext.mavenUrl }
     }

@@ -1,35 +1,36 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: "com.android.library"
+apply plugin: "maven-publish"
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        minSdkVersion 14
-        // TODO switch to 26 needs more work https://developer.android.com/about/versions/oreo/background.html
-        targetSdkVersion 24
+        minSdk 21
+        targetSdk 34
 
         testApplicationId "org.eclipse.paho.android.service.test"
     }
 
-    lintOptions {
+
+    useLibrary "android.test.runner"
+    useLibrary "android.test.base"
+    namespace "org.eclipse.paho.android.service"
+    testNamespace "org.eclipse.paho.android.service.test"
+    lint {
         abortOnError false
     }
-
-    useLibrary 'android.test.runner'
-    useLibrary 'android.test.base'
 }
 
 dependencies {
     api "org.eclipse.paho:org.eclipse.paho.client.mqttv3:${rootProject.ext.clientVersion}"
-    implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
 }
 
 android.libraryVariants.all { variant ->
     task("generate${variant.name}Javadoc", type: Javadoc) {
         doFirst {
             ext.androidJar =
-                    "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+                    "${android.sdkDirectory}/platforms/${android.compileSdk}/android.jar"
             classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
         }
         title = "$name $version API"
@@ -37,15 +38,15 @@ android.libraryVariants.all { variant ->
         source = variant.javaCompileProvider
         options.links("http://docs.oracle.com/javase/7/docs/api/")
         options.links("http://d.android.com/reference/")
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
+        exclude "**/BuildConfig.java"
+        exclude "**/R.java"
     }
 }
 
 // Generate Sources Jar
 task("generateSourcesJar", type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier.set("sources")
 }
 
 // Generate Plain Jar Version of library (good for legacy users)
@@ -54,15 +55,15 @@ task("generateLibraryJar", type: Jar) {
 }
 
 // Generate Javadoc
-task("generateJavaDocJar", type: Jar, dependsOn: (rootProject.ext.serviceVersion.endsWith('-SNAPSHOT') ? 'generatedebugJavadoc' : 'generatereleaseJavadoc')) {
+task("generateJavaDocJar", type: Jar, dependsOn: (rootProject.ext.serviceVersion.endsWith("-SNAPSHOT") ? "generatedebugJavadoc" : "generatereleaseJavadoc")) {
     from("$buildDir/docs/javadoc")
-    classifier = 'javadoc'
+    archiveClassifier.set("javadoc")
 }
 
 publishing {
     publications {
         paho(MavenPublication) {
-            groupId 'org.eclipse.paho'
+            groupId "org.eclipse.paho"
             artifact generateSourcesJar
             artifact generateLibraryJar
             artifact generateJavaDocJar
@@ -70,10 +71,10 @@ publishing {
         }
     }
     repositories {
-        if (project.hasProperty('eclipseRepoUsername')) {
+        if (project.hasProperty("eclipseRepoUsername")) {
             maven {
-                name 'eclipse'
-                url 'https://repo.eclipse.org/content/repositories/paho-' + (rootProject.ext.serviceVersion.endsWith('-SNAPSHOT') ? 'snapshots/' : 'releases/')
+                name "eclipse"
+                url "https://repo.eclipse.org/content/repositories/paho-" + (rootProject.ext.serviceVersion.endsWith("-SNAPSHOT") ? "snapshots/" : "releases/")
                 credentials {
                     username eclipseRepoUsername
                     password eclipseRepoPassword
