@@ -3,6 +3,7 @@ buildscript {
 //        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         mavenCentral()
         google()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.2"
@@ -30,8 +31,10 @@ allprojects {
 
     repositories {
 //        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+        mavenCentral()
         google()
         maven { url rootProject.ext.mavenUrl }
+        maven { url "https://jitpack.io" }
     }
 
 }
