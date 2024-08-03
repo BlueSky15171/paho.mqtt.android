@@ -11,12 +11,16 @@ android {
         testApplicationId "org.eclipse.paho.android.service.test"
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     useLibrary "android.test.runner"
     useLibrary "android.test.base"
-    namespace "org.eclipse.paho.android.service"
-    testNamespace "org.eclipse.paho.android.service.test"
-    lint {
+//    namespace "org.eclipse.paho.android.service"
+//    testNamespace "org.eclipse.paho.android.service.test"
+    lintOptions {
         abortOnError false
     }
 }

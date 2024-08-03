@@ -1,12 +1,12 @@
 buildscript {
     repositories {
-        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+//        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         mavenCentral()
         google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:8.5.0"
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
+        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     }
 }
 
@@ -29,7 +29,7 @@ ext {
 allprojects {
 
     repositories {
-        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+//        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         google()
         maven { url rootProject.ext.mavenUrl }
     }

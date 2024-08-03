@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="org.eclipse.paho.android.service.test"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Permissions the Application Requires -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
